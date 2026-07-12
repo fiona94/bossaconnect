@@ -1,1 +1,94 @@
-/* You can add global styles to this file, and also import other style files */
+/* ============================================================
+   Bossa Connect — global theme
+   "Convenience Delivered to Every Township."
+   Palette derived from the brand logo + landing reference:
+   deep navy, forest-to-emerald greens, orange location accent.
+   ============================================================ */
+
+:root {
+  /* Brand core */
+  --navy-900: #08172e;
+  --navy-800: #0a1f44;
+  --navy-700: #0e2a52;
+
+  --green-900: #0a3a29;
+  --green-800: #0f4a34;
+  --green-700: #15694a;
+  --green-600: #1c8a5f;
+  --emerald-500: #1db954;
+  --emerald-400: #2fce6b;
+
+  --orange-500: #f97316;
+  --orange-400: #fb8b3d;
+
+  /* Neutrals */
+  --ink: #0b1b2b;
+  --slate-600: #47576b;
+  --slate-400: #8090a2;
+  --line: #e4eae6;
+  --surface: #ffffff;
+  --surface-alt: #f4f8f5;
+  --cream: #eef4ef;
+
+  /* Effects */
+  --hero-gradient: radial-gradient(120% 130% at 85% 20%, #1c7d54 0%, #0f5738 42%, #0a3626 100%);
+  --emerald-gradient: linear-gradient(135deg, #22c55e 0%, #12925a 100%);
+  --shadow-sm: 0 2px 8px rgba(8, 23, 46, 0.06);
+  --shadow-md: 0 12px 32px rgba(8, 23, 46, 0.1);
+  --shadow-lg: 0 24px 60px rgba(8, 23, 46, 0.16);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --maxw: 1180px;
+
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--surface);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--navy-800);
+  line-height: 1.12;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  background: var(--emerald-400);
+  color: var(--navy-900);
+}

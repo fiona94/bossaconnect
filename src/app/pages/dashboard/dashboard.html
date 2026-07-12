@@ -1,0 +1,18 @@
+<header class="dash-header">
+  <div class="dash-header-inner">
+    <img src="bossa-connect-logo.jpeg" alt="Bossa Connect" class="dash-logo" />
+    <button type="button" class="logout-btn" (click)="logout()">Sign out</button>
+  </div>
+</header>
+
+<main class="dash-main">
+  @if (user(); as u) {
+    <span class="role-pill">{{ u.role }}</span>
+    <h1>Welcome, {{ u.fullName }}</h1>
+    <h2>{{ roleCopy().title }}</h2>
+    <p>{{ roleCopy().blurb }}</p>
+    <div class="dash-note">
+      <strong>Coming next:</strong> we're building the {{ u.role }} experience one screen at a time.
+    </div>
+  }
+</main>

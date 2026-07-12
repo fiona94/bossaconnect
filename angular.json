@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "bossa-ride": {
+    "bossa-connect": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -38,8 +38,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "12kB",
+                  "maximumError": "16kB"
                 }
               ],
               "outputHashing": "all"
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "bossa-ride:build:production"
+              "buildTarget": "bossa-connect:build:production"
             },
             "development": {
-              "buildTarget": "bossa-ride:build:development"
+              "buildTarget": "bossa-connect:build:development"
             }
           },
           "defaultConfiguration": "development"

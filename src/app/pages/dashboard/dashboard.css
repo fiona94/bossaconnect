@@ -1,0 +1,87 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--surface-alt);
+}
+
+.dash-header {
+  background: var(--navy-800);
+}
+.dash-header-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dash-logo {
+  height: 42px;
+  width: auto;
+  background: #fff;
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+.logout-btn {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  padding: 9px 20px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.16s ease;
+}
+.logout-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.dash-main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 72px 24px;
+  text-align: center;
+}
+.role-pill {
+  display: inline-block;
+  text-transform: capitalize;
+  background: rgba(29, 185, 84, 0.12);
+  color: var(--green-700);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 18px;
+}
+.dash-main h1 {
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  margin-bottom: 10px;
+}
+.dash-main h2 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--green-700);
+  margin-bottom: 14px;
+}
+.dash-main p {
+  color: var(--slate-600);
+  font-size: 1.05rem;
+  max-width: 520px;
+  margin: 0 auto;
+}
+.dash-note {
+  margin-top: 32px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  color: var(--slate-600);
+  box-shadow: var(--shadow-sm);
+}
+.dash-note strong {
+  color: var(--navy-800);
+}

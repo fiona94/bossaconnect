@@ -1,0 +1,125 @@
+<div class="auth-page">
+  <!-- ===================== ASIDE ===================== -->
+  <aside class="auth-aside">
+    <div class="aside-orbits" aria-hidden="true">
+      <span class="orbit orbit--1"></span>
+      <span class="orbit orbit--2"></span>
+    </div>
+
+    <a class="brand" routerLink="/" aria-label="Bossa Connect home">
+      <img src="bossa-connect-logo.jpeg" alt="Bossa Connect" class="logo-img" />
+    </a>
+
+    <div class="aside-copy">
+      <span class="eyebrow">Join the community</span>
+      <h1>Create your Bossa Connect account.</h1>
+      <p>
+        One account to request deliveries and shuttles, track every trip live, and support
+        local businesses in your township.
+      </p>
+    </div>
+
+    <ul class="aside-points">
+      <li>
+        <span class="point-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg>
+        </span>
+        <div><b>Free to join</b><span>Sign up in seconds, no cost to customers.</span></div>
+      </li>
+      <li>
+        <span class="point-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-4.4-7-10a7 7 0 0 1 14 0c0 5.6-7 10-7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg>
+        </span>
+        <div><b>Nearby providers</b><span>Order from shops and drivers close to you.</span></div>
+      </li>
+      <li>
+        <span class="point-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 6 9 17l-5-5"/></svg>
+        </span>
+        <div><b>Secure & accountable</b><span>Ratings and secure payments on every order.</span></div>
+      </li>
+    </ul>
+
+    <div class="aside-bottom">
+      <a routerLink="/">&larr; Back to home</a>
+    </div>
+  </aside>
+
+  <!-- ===================== FORM ===================== -->
+  <main class="auth-main">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form" novalidate>
+      <header class="form-head">
+        <h2>Create account</h2>
+        <p>Join Bossa Connect as a customer.</p>
+      </header>
+
+      @if (authError()) {
+        <div class="alert" role="alert">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+          <span>{{ authError() }}</span>
+        </div>
+      }
+
+      <label class="field">
+        <span class="label">Full name</span>
+        <div class="input-wrap" [class.error]="!!fieldError('name')">
+          <span class="prefix" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg>
+          </span>
+          <input type="text" placeholder="Your full name" formControlName="name" autocomplete="name" />
+        </div>
+        @if (fieldError('name'); as e) { <span class="err">{{ e }}</span> }
+      </label>
+
+      <label class="field">
+        <span class="label">Email</span>
+        <div class="input-wrap" [class.error]="!!fieldError('email')">
+          <span class="prefix" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          </span>
+          <input type="email" placeholder="you@example.com" formControlName="email" autocomplete="email" />
+        </div>
+        @if (fieldError('email'); as e) { <span class="err">{{ e }}</span> }
+      </label>
+
+      <label class="field">
+        <span class="label">Password</span>
+        <div class="input-wrap" [class.error]="!!fieldError('password')">
+          <span class="prefix" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+          </span>
+          <input [type]="obscure() ? 'password' : 'text'" placeholder="Create a password" formControlName="password" autocomplete="new-password" />
+          <button type="button" class="toggle" (click)="toggleObscure()" [attr.aria-label]="obscure() ? 'Show password' : 'Hide password'">
+            @if (obscure()) {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            } @else {
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3l18 18M10.6 10.7a3 3 0 0 0 4.2 4.2M9.9 5.2A9.7 9.7 0 0 1 12 5c6.5 0 10 7 10 7a17 17 0 0 1-3.3 4M6.1 6.2A17 17 0 0 0 2 12s3.5 7 10 7a9.9 9.9 0 0 0 2.3-.3"/></svg>
+            }
+          </button>
+        </div>
+        @if (fieldError('password'); as e) { <span class="err">{{ e }}</span> }
+      </label>
+
+      <label class="field">
+        <span class="label">Confirm password</span>
+        <div class="input-wrap" [class.error]="!!fieldError('confirm')">
+          <span class="prefix" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+          </span>
+          <input [type]="obscure() ? 'password' : 'text'" placeholder="Re-enter your password" formControlName="confirm" autocomplete="new-password" />
+        </div>
+        @if (fieldError('confirm'); as e) { <span class="err">{{ e }}</span> }
+      </label>
+
+      <button type="submit" class="submit-btn" [disabled]="loading()">
+        @if (loading()) { <span class="spinner" aria-hidden="true"></span> Creating account… }
+        @else { Create account }
+      </button>
+
+      <div class="register-row">
+        <span>Already have an account?</span>
+        <a routerLink="/login" class="link">Sign in</a>
+      </div>
+    </form>
+  </main>
+</div>
