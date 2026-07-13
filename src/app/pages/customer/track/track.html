@@ -1,0 +1,131 @@
+@if (order(); as o) {
+  <a class="back" routerLink="/customer">← Home</a>
+
+  <div class="track-grid">
+    <!-- Map + status -->
+    <section class="track-main">
+      <div class="map" [attr.data-stage]="mapStage(o)" aria-hidden="true">
+        <svg class="route" viewBox="0 0 400 200" preserveAspectRatio="none">
+          <path class="route-line" d="M40 160 C 120 160, 130 60, 200 60 S 300 120, 360 40" />
+        </svg>
+        <span class="map-pin map-pin--start"></span>
+        <span class="map-pin map-pin--end"></span>
+        @if (o.driver && !isComplete(o)) {
+          <span class="map-driver"></span>
+        }
+        <div class="map-badge">
+          @if (o.status === 'finding') { Matching you with a nearby driver… }
+          @else if (isComplete(o)) { {{ o.isShuttle ? 'You have arrived' : 'Delivered to your door' }} }
+          @else { ETA ~{{ o.etaMinutes }} min }
+        </div>
+      </div>
+
+      <div class="status-head">
+        <span class="req-icon" aria-hidden="true"><app-service-icon [key]="o.service" /></span>
+        <div>
+          <h1>{{ o.serviceTitle }}</h1>
+          <span class="muted">Order {{ o.id }}</span>
+        </div>
+      </div>
+
+      <ol class="timeline">
+        @for (step of steps(o); track step.key) {
+          <li [class.done]="step.done" [class.current]="step.current">
+            <span class="node" aria-hidden="true">
+              @if (step.done) {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>
+              }
+            </span>
+            <span class="step-label">{{ step.label }}</span>
+            @if (step.current) { <span class="live-dot" aria-hidden="true"></span> }
+          </li>
+        }
+      </ol>
+    </section>
+
+    <!-- Sidebar: driver + details + rating -->
+    <aside class="track-side">
+      @if (o.driver; as d) {
+        <div class="driver-card">
+          <span class="driver-avatar">{{ d.name.charAt(0) }}</span>
+          <div class="driver-info">
+            <strong>{{ d.name }}</strong>
+            <span class="muted">{{ d.vehicle }}</span>
+            <span class="driver-meta">
+              <span class="plate">{{ d.plate }}</span>
+              <span class="rating">★ {{ d.rating }}</span>
+            </span>
+          </div>
+        </div>
+      } @else {
+        <div class="driver-card driver-card--searching">
+          <span class="spinner" aria-hidden="true"></span>
+          <div class="driver-info">
+            <strong>Finding your driver</strong>
+            <span class="muted">Contacting nearby registered drivers…</span>
+          </div>
+        </div>
+      }
+
+      <div class="details-card">
+        <div class="detail-row">
+          <span class="dot dot--start" aria-hidden="true"></span>
+          <div><small>{{ o.isShuttle ? 'Pickup' : 'Collect from' }}</small><p>{{ o.pickup }}</p></div>
+        </div>
+        <div class="detail-row">
+          <span class="dot dot--end" aria-hidden="true"></span>
+          <div><small>{{ o.isShuttle ? 'Destination' : 'Deliver to' }}</small><p>{{ o.dropoff }}</p></div>
+        </div>
+        @if (o.items) {
+          <div class="detail-row detail-row--plain">
+            <div><small>Details</small><p>{{ o.items }}</p></div>
+          </div>
+        }
+        <div class="fare-row">
+          <span>{{ o.isShuttle ? 'Fare' : 'Delivery fee' }} · {{ o.distanceKm }} km</span>
+          <strong>R{{ o.fee }}</strong>
+        </div>
+      </div>
+
+      @if (isComplete(o)) {
+        <div class="rate-card">
+          @if (o.status === 'rated') {
+            <div class="rated-done">
+              <span class="check-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>
+              </span>
+              <strong>Thanks for rating!</strong>
+              <div class="stars stars--static" aria-hidden="true">
+                @for (n of [1,2,3,4,5]; track n) {
+                  <span class="star" [class.filled]="n <= (o.rating ?? 0)">★</span>
+                }
+              </div>
+              <p class="muted">Payment of R{{ o.fee }} completed securely.</p>
+            </div>
+          } @else {
+            <strong>Rate your driver</strong>
+            <p class="muted">How was your experience with {{ o.driver?.name }}?</p>
+            <div class="stars" (mouseleave)="setHover(0)">
+              @for (n of [1,2,3,4,5]; track n) {
+                <button
+                  type="button"
+                  class="star"
+                  [class.filled]="n <= hoverRating()"
+                  (mouseenter)="setHover(n)"
+                  (click)="rate(o, n)"
+                  [attr.aria-label]="n + ' star'"
+                >★</button>
+              }
+            </div>
+          }
+        </div>
+      }
+    </aside>
+  </div>
+} @else {
+  <div class="not-found">
+    <h1>Order not found</h1>
+    <p class="muted">We couldn't find that trip.</p>
+    <a class="back" routerLink="/customer">← Back to home</a>
+  </div>
+}

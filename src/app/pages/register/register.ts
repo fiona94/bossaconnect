@@ -59,7 +59,7 @@ export class Register {
       this.authError.set(error);
       return;
     }
-    this.router.navigate(['/dashboard']);
+    this.router.navigate([this.auth.homePath()]);
   }
 
   protected fieldError(field: 'name' | 'email' | 'password' | 'confirm'): string | null {

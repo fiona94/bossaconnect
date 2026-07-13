@@ -1,0 +1,77 @@
+<section class="hello">
+  <div>
+    <h1>Hi {{ firstName() }} 👋</h1>
+    <p class="muted">What can we get moving for you today?</p>
+  </div>
+  <div class="location">
+    <span class="location-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-4.4-7-10a7 7 0 0 1 14 0c0 5.6-7 10-7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg>
+    </span>
+    <div>
+      <small>Deliver to</small>
+      <strong>Soweto, Zone 4</strong>
+    </div>
+  </div>
+</section>
+
+@if (activeOrder(); as o) {
+  <a class="active-order" [routerLink]="['/customer/track', o.id]">
+    <span class="pulse" aria-hidden="true"></span>
+    <div class="active-icon" aria-hidden="true"><app-service-icon [key]="o.service" /></div>
+    <div class="active-body">
+      <div class="active-top">
+        <strong>{{ o.serviceTitle }}</strong>
+        <span class="active-status">{{ statusLabel(o) }}</span>
+      </div>
+      <p class="muted">{{ o.dropoff }}</p>
+    </div>
+    <span class="active-cta">Track →</span>
+  </a>
+}
+
+<section class="services-block">
+  <div class="block-head">
+    <h2>Request a service</h2>
+    <p class="muted">From registered providers near you.</p>
+  </div>
+  <div class="service-grid">
+    @for (s of services; track s.key) {
+      <a class="service-tile" [routerLink]="['/customer/request', s.key]">
+        <span class="tile-icon" aria-hidden="true"><app-service-icon [key]="s.key" /></span>
+        <span class="tile-title">{{ s.title }}</span>
+        <span class="tile-blurb muted">{{ s.blurb }}</span>
+      </a>
+    }
+  </div>
+</section>
+
+<section class="recent-block">
+  <div class="block-head">
+    <h2>Recent activity</h2>
+    @if (recent().length) {
+      <a class="see-all" routerLink="/customer/orders">See all trips</a>
+    }
+  </div>
+
+  @if (recent().length) {
+    <div class="recent-list">
+      @for (o of recent(); track o.id) {
+        <a class="recent-row" [routerLink]="['/customer/track', o.id]">
+          <span class="recent-icon" aria-hidden="true"><app-service-icon [key]="o.service" /></span>
+          <div class="recent-info">
+            <strong>{{ o.serviceTitle }}</strong>
+            <span class="muted">{{ o.dropoff }}</span>
+          </div>
+          <div class="recent-meta">
+            <span class="recent-fee">R{{ o.fee }}</span>
+            <span class="badge" [attr.data-status]="o.status">{{ statusLabel(o) }}</span>
+          </div>
+        </a>
+      }
+    </div>
+  } @else {
+    <div class="empty">
+      <p>No trips yet — pick a service above to get started.</p>
+    </div>
+  }
+</section>

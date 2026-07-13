@@ -54,7 +54,7 @@ export class Login {
       this.authError.set(error);
       return;
     }
-    this.router.navigate(['/dashboard']);
+    this.router.navigate([this.auth.homePath()]);
   }
 
   protected emailError(): string | null {

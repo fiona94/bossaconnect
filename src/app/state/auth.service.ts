@@ -78,4 +78,9 @@ export class AuthService {
   logout(): void {
     this.currentUserSig.set(null);
   }
+
+  /** Landing route for the signed-in user's role. */
+  homePath(): string {
+    return this.role() === 'customer' ? '/customer' : '/dashboard';
+  }
 }

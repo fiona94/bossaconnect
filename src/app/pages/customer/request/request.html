@@ -1,0 +1,74 @@
+<a class="back" routerLink="/customer">← Back</a>
+
+<div class="request-grid">
+  <!-- Form -->
+  <section class="request-form">
+    <header class="req-head">
+      <span class="req-icon" aria-hidden="true"><app-service-icon [key]="def().key" /></span>
+      <div>
+        <h1>{{ def().title }}</h1>
+        <p class="muted">{{ def().blurb }}</p>
+      </div>
+    </header>
+
+    <form [formGroup]="form" (ngSubmit)="confirm()" novalidate>
+      <label class="field">
+        <span class="label">{{ pickupLabel() }}</span>
+        <div class="input-wrap" [class.error]="error('pickup')">
+          <span class="dot dot--start" aria-hidden="true"></span>
+          <input type="text" formControlName="pickup" [placeholder]="def().isShuttle ? 'Where should the driver fetch you?' : 'Shop, restaurant or address'" />
+        </div>
+        @if (error('pickup')) { <span class="err">Please enter a pickup point</span> }
+      </label>
+
+      <label class="field">
+        <span class="label">{{ dropoffLabel() }}</span>
+        <div class="input-wrap" [class.error]="error('dropoff')">
+          <span class="dot dot--end" aria-hidden="true"></span>
+          <input type="text" formControlName="dropoff" [placeholder]="def().isShuttle ? 'Where are you going?' : 'Your delivery address'" />
+        </div>
+        @if (error('dropoff')) { <span class="err">Please enter a destination</span> }
+      </label>
+
+      @if (def().needsItems) {
+        <label class="field">
+          <span class="label">{{ def().itemsLabel }}</span>
+          <textarea formControlName="items" rows="3" placeholder="Add details so the driver knows exactly what to get"></textarea>
+        </label>
+      }
+
+      <button type="submit" class="confirm-btn" [disabled]="placing()">
+        @if (placing()) { <span class="spinner" aria-hidden="true"></span> Requesting… }
+        @else { {{ def().isShuttle ? 'Request ride' : 'Request delivery' }} }
+      </button>
+    </form>
+  </section>
+
+  <!-- Estimate summary -->
+  <aside class="estimate-card">
+    <h3>Trip estimate</h3>
+    @if (estimate(); as e) {
+      <div class="est-row est-fee">
+        <span>{{ def().isShuttle ? 'Estimated fare' : 'Delivery fee' }}</span>
+        <strong>R{{ e.fee }}</strong>
+      </div>
+      <div class="est-row">
+        <span>Distance</span>
+        <span>{{ e.distanceKm }} km</span>
+      </div>
+      <div class="est-row">
+        <span>Estimated time</span>
+        <span>~{{ e.etaMinutes }} min</span>
+      </div>
+      <p class="est-note">Transparent, upfront pricing — pay securely on completion.</p>
+    } @else {
+      <p class="est-empty muted">Enter your pickup and destination to see the fare upfront.</p>
+    }
+
+    <ul class="est-benefits">
+      <li>Live driver tracking</li>
+      <li>Rate your driver after</li>
+      <li>Registered local providers</li>
+    </ul>
+  </aside>
+</div>

@@ -1,0 +1,46 @@
+@if (user(); as u) {
+  <div class="profile-head">
+    <span class="p-avatar">{{ u.fullName.charAt(0) }}</span>
+    <div>
+      <h1>{{ u.fullName }}</h1>
+      <span class="muted">{{ u.email }}</span>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat">
+      <strong>{{ tripCount() }}</strong>
+      <span>Total trips</span>
+    </div>
+    <div class="stat">
+      <strong>{{ completed() }}</strong>
+      <span>Completed</span>
+    </div>
+    <div class="stat">
+      <strong class="cap">{{ u.role }}</strong>
+      <span>Account type</span>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2>Account details</h2>
+    <div class="detail">
+      <span class="muted">Full name</span>
+      <span>{{ u.fullName }}</span>
+    </div>
+    <div class="detail">
+      <span class="muted">Email</span>
+      <span>{{ u.email }}</span>
+    </div>
+    <div class="detail">
+      <span class="muted">Default delivery area</span>
+      <span>Soweto, Zone 4</span>
+    </div>
+    <div class="detail">
+      <span class="muted">Payment method</span>
+      <span>Secure in-app payment</span>
+    </div>
+  </section>
+
+  <button type="button" class="signout" (click)="logout()">Sign out</button>
+}

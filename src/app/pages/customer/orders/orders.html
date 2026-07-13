@@ -1,0 +1,37 @@
+<header class="orders-head">
+  <h1>My Trips</h1>
+  <p class="muted">Every delivery and ride you've requested.</p>
+</header>
+
+@if (orders().length) {
+  <div class="orders-list">
+    @for (o of orders(); track o.id) {
+      <a class="order-row" [routerLink]="['/customer/track', o.id]">
+        <span class="order-icon" aria-hidden="true"><app-service-icon [key]="o.service" /></span>
+        <div class="order-main">
+          <div class="order-title">
+            <strong>{{ o.serviceTitle }}</strong>
+            @if (isLive(o)) { <span class="live-tag">Live</span> }
+          </div>
+          <span class="muted route">{{ o.pickup }} → {{ o.dropoff }}</span>
+        </div>
+        <div class="order-meta">
+          <span class="order-fee">R{{ o.fee }}</span>
+          <span class="badge" [attr.data-status]="o.status">{{ statusLabel(o) }}</span>
+          @if (o.status === 'rated' && o.rating) {
+            <span class="mini-stars" aria-label="Your rating">★ {{ o.rating }}</span>
+          }
+        </div>
+      </a>
+    }
+  </div>
+} @else {
+  <div class="empty">
+    <div class="empty-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3.3 7 12 3l8.7 4v10L12 21l-8.7-4V7Z"/><path d="M3.3 7 12 11l8.7-4M12 11v10"/></svg>
+    </div>
+    <h2>No trips yet</h2>
+    <p class="muted">Request a delivery or ride and it'll show up here.</p>
+    <a class="empty-cta" routerLink="/customer">Browse services</a>
+  </div>
+}

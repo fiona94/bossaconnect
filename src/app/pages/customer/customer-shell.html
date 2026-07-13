@@ -1,0 +1,33 @@
+<header class="c-header">
+  <div class="c-header-inner">
+    <a class="c-brand" routerLink="/customer" (click)="closeMenu()" aria-label="Bossa Connect home">
+      <img src="bossa-connect-logo.jpeg" alt="Bossa Connect" />
+    </a>
+
+    <nav class="c-nav" [class.c-nav--open]="menuOpen()">
+      <a routerLink="/customer" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Home</a>
+      <a routerLink="/customer/orders" routerLinkActive="active" (click)="closeMenu()">My Trips</a>
+      <a routerLink="/customer/profile" routerLinkActive="active" (click)="closeMenu()">Profile</a>
+      <button type="button" class="c-signout" (click)="logout()">Sign out</button>
+    </nav>
+
+    <div class="c-header-right">
+      @if (user(); as u) {
+        <span class="c-avatar" [attr.title]="u.fullName">{{ u.fullName.charAt(0) }}</span>
+      }
+      <button
+        class="c-menu-toggle"
+        type="button"
+        [attr.aria-expanded]="menuOpen()"
+        aria-label="Toggle menu"
+        (click)="toggleMenu()"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="c-main">
+  <router-outlet />
+</main>
