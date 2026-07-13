@@ -1,11 +1,5 @@
 {
   "name": "bossaconnect",
   "compatibility_date": "2026-07-12",
-  "assets": {
-    "directory": "./dist/bossa-connect/browser",
-    "not_found_handling": "single-page-application"
-  },
-  "observability": {
-    "enabled": true
-  }
+  "pages_build_output_dir": "./dist/bossa-connect/browser"
 }
