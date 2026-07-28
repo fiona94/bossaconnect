@@ -1,0 +1,91 @@
+@if (user(); as u) {
+  <div class="profile-head">
+    <span class="p-avatar">{{ u.fullName.charAt(0) }}</span>
+    <div>
+      <h1>{{ u.fullName }}</h1>
+      <span class="muted">{{ u.email }}</span>
+    </div>
+  </div>
+
+  <div class="avail-card" [class.on]="online()">
+    <div>
+      <strong>{{ online() ? "You're online" : "You're offline" }}</strong>
+      <span class="muted">{{ online() ? 'Receiving nearby requests' : 'Not receiving requests' }}</span>
+    </div>
+    <button type="button" class="avail-toggle" [class.on]="online()" (click)="toggleOnline()" [attr.aria-pressed]="online()">
+      <span class="knob"></span>
+    </button>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat">
+      <strong>{{ trips().length }}</strong>
+      <span>Trips done</span>
+    </div>
+    <div class="stat">
+      <strong>R{{ earnings() }}</strong>
+      <span>Earned</span>
+    </div>
+    <div class="stat">
+      <strong>{{ u.rating ?? 5 }}★</strong>
+      <span>Rating</span>
+    </div>
+  </div>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Vehicle & account</h2>
+      @if (!editing()) {
+        <button type="button" class="edit-btn" (click)="startEdit()">Edit</button>
+      }
+    </div>
+
+    @if (!editing()) {
+      <div class="detail">
+        <span class="muted">Driver</span>
+        <span>{{ u.fullName }}</span>
+      </div>
+      <div class="detail">
+        <span class="muted">Phone</span>
+        <span>{{ u.cellNumber || 'Not set' }}</span>
+      </div>
+      <div class="detail">
+        <span class="muted">Vehicle</span>
+        <span>{{ u.vehicle || 'Not set' }}</span>
+      </div>
+      <div class="detail">
+        <span class="muted">Number plate</span>
+        <span>{{ u.plate || 'Not set' }}</span>
+      </div>
+      <div class="detail">
+        <span class="muted">Payout</span>
+        <span>85% of each fare</span>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="save()" class="edit-form">
+        <label class="efield">
+          <span>Driver name</span>
+          <input type="text" formControlName="fullName" placeholder="Your name" />
+        </label>
+        <label class="efield">
+          <span>Phone</span>
+          <input type="tel" formControlName="cellNumber" placeholder="083 000 0000" />
+        </label>
+        <label class="efield">
+          <span>Vehicle</span>
+          <input type="text" formControlName="vehicle" placeholder="e.g. Scooter · Honda" />
+        </label>
+        <label class="efield">
+          <span>Number plate</span>
+          <input type="text" formControlName="plate" placeholder="e.g. GP 214 MT" />
+        </label>
+        <div class="edit-actions">
+          <button type="button" class="ghost-btn" (click)="cancelEdit()">Cancel</button>
+          <button type="submit" class="save-btn">Save changes</button>
+        </div>
+      </form>
+    }
+  </section>
+
+  <button type="button" class="signout" (click)="logout()">Sign out</button>
+}

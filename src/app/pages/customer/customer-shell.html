@@ -12,6 +12,7 @@
     </nav>
 
     <div class="c-header-right">
+      <app-notification-bell />
       @if (user(); as u) {
         <span class="c-avatar" [attr.title]="u.fullName">{{ u.fullName.charAt(0) }}</span>
       }

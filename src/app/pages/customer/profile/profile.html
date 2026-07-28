@@ -23,23 +23,50 @@
   </div>
 
   <section class="card">
-    <h2>Account details</h2>
-    <div class="detail">
-      <span class="muted">Full name</span>
-      <span>{{ u.fullName }}</span>
+    <div class="card-head">
+      <h2>Account details</h2>
+      @if (!editing()) {
+        <button type="button" class="edit-btn" (click)="startEdit()">Edit</button>
+      }
     </div>
-    <div class="detail">
-      <span class="muted">Email</span>
-      <span>{{ u.email }}</span>
-    </div>
-    <div class="detail">
-      <span class="muted">Default delivery area</span>
-      <span>Soweto, Zone 4</span>
-    </div>
-    <div class="detail">
-      <span class="muted">Payment method</span>
-      <span>Secure in-app payment</span>
-    </div>
+
+    @if (!editing()) {
+      <div class="detail">
+        <span class="muted">Full name</span>
+        <span>{{ u.fullName }}</span>
+      </div>
+      <div class="detail">
+        <span class="muted">Email</span>
+        <span>{{ u.email }}</span>
+      </div>
+      <div class="detail">
+        <span class="muted">Phone</span>
+        <span>{{ u.cellNumber || 'Not set' }}</span>
+      </div>
+      <div class="detail">
+        <span class="muted">Default delivery area</span>
+        <span>{{ u.area || 'Not set' }}</span>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="save()" class="edit-form">
+        <label class="efield">
+          <span>Full name</span>
+          <input type="text" formControlName="fullName" placeholder="Your name" />
+        </label>
+        <label class="efield">
+          <span>Phone</span>
+          <input type="tel" formControlName="cellNumber" placeholder="082 000 0000" />
+        </label>
+        <label class="efield">
+          <span>Default delivery area</span>
+          <input type="text" formControlName="area" placeholder="e.g. Soweto, Zone 4" />
+        </label>
+        <div class="edit-actions">
+          <button type="button" class="ghost-btn" (click)="cancelEdit()">Cancel</button>
+          <button type="submit" class="save-btn">Save changes</button>
+        </div>
+      </form>
+    }
   </section>
 
   <button type="button" class="signout" (click)="logout()">Sign out</button>

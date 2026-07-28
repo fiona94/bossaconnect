@@ -14,7 +14,11 @@
           <span class="map-driver"></span>
         }
         <div class="map-badge">
-          @if (o.status === 'finding') { Matching you with a nearby driver… }
+          @if (o.status === 'placed') { Sent to the store… }
+          @else if (o.status === 'preparing') { Preparing your order… }
+          @else if (o.status === 'finding') { Matching you with a nearby driver… }
+          @else if (o.status === 'declined') { No driver took this request }
+          @else if (o.status === 'cancelled') { Request cancelled }
           @else if (isComplete(o)) { {{ o.isShuttle ? 'You have arrived' : 'Delivered to your door' }} }
           @else { ETA ~{{ o.etaMinutes }} min }
         </div>
@@ -57,14 +61,40 @@
             </span>
           </div>
         </div>
-      } @else {
+      } @else if (atBusiness(o)) {
         <div class="driver-card driver-card--searching">
           <span class="spinner" aria-hidden="true"></span>
           <div class="driver-info">
-            <strong>Finding your driver</strong>
+            @if (o.status === 'placed') {
+              <strong>Sent to the store</strong>
+              <span class="muted">Waiting for the store to confirm your order…</span>
+            } @else {
+              <strong>Preparing your order</strong>
+              <span class="muted">{{ o.businessName }} is getting it ready…</span>
+            }
+          </div>
+        </div>
+        <button type="button" class="cancel-btn" (click)="cancel(o)">Cancel request</button>
+      } @else if (o.status === 'finding') {
+        <div class="driver-card driver-card--searching">
+          <span class="spinner" aria-hidden="true"></span>
+          <div class="driver-info">
+            <strong>Searching for a driver</strong>
             <span class="muted">Contacting nearby registered drivers…</span>
           </div>
         </div>
+        <button type="button" class="cancel-btn" (click)="cancel(o)">Cancel request</button>
+      } @else if (o.status === 'declined') {
+        <div class="declined-card">
+          <span class="declined-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+          </span>
+          <strong>Request declined</strong>
+          <p class="muted">No nearby driver accepted this request. You can send it out again.</p>
+          <button type="button" class="reopen-btn" (click)="reopen(o)">Request again</button>
+        </div>
+      } @else if (o.status === 'cancelled') {
+        <div class="cancelled-note">This request was cancelled.</div>
       }
 
       <div class="details-card">
@@ -86,6 +116,10 @@
           <strong>R{{ o.fee }}</strong>
         </div>
       </div>
+
+      @if (o.status === 'accepted' || o.status === 'arriving' || o.status === 'in_transit') {
+        <button type="button" class="cancel-btn" (click)="cancel(o)">Cancel trip</button>
+      }
 
       @if (isComplete(o)) {
         <div class="rate-card">
@@ -118,6 +152,22 @@
               }
             </div>
           }
+        </div>
+
+        <div class="receipt-card">
+          <div class="receipt-head">
+            <strong>Receipt</strong>
+            <span class="muted">{{ o.id }}</span>
+          </div>
+          <div class="receipt-row"><span class="muted">Service</span><span>{{ o.serviceTitle }}</span></div>
+          <div class="receipt-row"><span class="muted">Driver</span><span>{{ o.driver?.name }}</span></div>
+          <div class="receipt-row"><span class="muted">Distance</span><span>{{ o.distanceKm }} km</span></div>
+          <div class="receipt-row"><span class="muted">Requested</span><span>{{ time(o.placedAt) }}</span></div>
+          <div class="receipt-row"><span class="muted">Completed</span><span>{{ time(o.completedAt) }}</span></div>
+          <div class="receipt-total">
+            <span>Total paid</span>
+            <strong>R{{ o.fee }}</strong>
+          </div>
         </div>
       }
     </aside>

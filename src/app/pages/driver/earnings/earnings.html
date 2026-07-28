@@ -1,0 +1,48 @@
+<header class="earn-head">
+  <h1>Earnings</h1>
+  <p class="muted">Your digital record of completed trips.</p>
+</header>
+
+<div class="summary">
+  <div class="sum-main">
+    <small>Total earned</small>
+    <strong>R{{ total() }}</strong>
+  </div>
+  <div class="sum-stats">
+    <div class="sum-stat">
+      <span class="sv">{{ tripCount() }}</span>
+      <span class="sl">Trips</span>
+    </div>
+    <div class="sum-stat">
+      <span class="sv">{{ avgRating() ? (avgRating() + '★') : '—' }}</span>
+      <span class="sl">Avg rating</span>
+    </div>
+  </div>
+</div>
+
+@if (trips().length) {
+  <div class="trip-list">
+    @for (o of trips(); track o.id) {
+      <div class="trip-row">
+        <span class="trip-icon" aria-hidden="true"><app-service-icon [key]="o.service" /></span>
+        <div class="trip-info">
+          <strong>{{ o.serviceTitle }}</strong>
+          <span class="muted route">{{ o.pickup }} → {{ o.dropoff }}</span>
+        </div>
+        <div class="trip-meta">
+          <span class="trip-earn">+ R{{ earning(o) }}</span>
+          @if (o.rating) {
+            <span class="trip-rating">★ {{ o.rating }}</span>
+          } @else {
+            <span class="muted small">Awaiting rating</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="empty">
+    <h2>No earnings yet</h2>
+    <p class="muted">Complete your first trip to start building your record.</p>
+  </div>
+}

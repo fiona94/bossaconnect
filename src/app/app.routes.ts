@@ -1,27 +1,17 @@
 import { Routes } from '@angular/router';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from './state/auth.service';
+import { AuthService, UserRole } from './state/auth.service';
 
-const requireAuth = () => {
+const requireRole = (role: UserRole) => () => {
   const auth = inject(AuthService);
   const router = inject(Router);
   if (!auth.isLoggedIn()) {
     router.navigate(['/login']);
     return false;
   }
-  return true;
-};
-
-const requireCustomer = () => {
-  const auth = inject(AuthService);
-  const router = inject(Router);
-  if (!auth.isLoggedIn()) {
-    router.navigate(['/login']);
-    return false;
-  }
-  if (auth.role() !== 'customer') {
-    router.navigate(['/dashboard']);
+  if (auth.role() !== role) {
+    router.navigate([auth.homePath()]);
     return false;
   }
   return true;
@@ -33,7 +23,7 @@ export const routes: Routes = [
   { path: 'register', loadComponent: () => import('./pages/register/register').then((m) => m.Register) },
   {
     path: 'customer',
-    canActivate: [requireCustomer],
+    canActivate: [requireRole('customer')],
     loadComponent: () => import('./pages/customer/customer-shell').then((m) => m.CustomerShell),
     children: [
       { path: '', loadComponent: () => import('./pages/customer/home/home').then((m) => m.CustomerHome) },
@@ -44,9 +34,35 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'dashboard',
-    canActivate: [requireAuth],
-    loadComponent: () => import('./pages/dashboard/dashboard').then((m) => m.Dashboard),
+    path: 'driver',
+    canActivate: [requireRole('driver')],
+    loadComponent: () => import('./pages/driver/driver-shell').then((m) => m.DriverShell),
+    children: [
+      { path: '', loadComponent: () => import('./pages/driver/requests/requests').then((m) => m.DriverRequests) },
+      { path: 'trip', loadComponent: () => import('./pages/driver/trip/trip').then((m) => m.DriverTrip) },
+      { path: 'earnings', loadComponent: () => import('./pages/driver/earnings/earnings').then((m) => m.DriverEarnings) },
+      { path: 'profile', loadComponent: () => import('./pages/driver/profile/profile').then((m) => m.DriverProfile) },
+    ],
+  },
+  {
+    path: 'business',
+    canActivate: [requireRole('business')],
+    loadComponent: () => import('./pages/business/business-shell').then((m) => m.BusinessShell),
+    children: [
+      { path: '', loadComponent: () => import('./pages/business/orders/orders').then((m) => m.BusinessOrders) },
+      { path: 'history', loadComponent: () => import('./pages/business/history/history').then((m) => m.BusinessHistory) },
+      { path: 'profile', loadComponent: () => import('./pages/business/profile/profile').then((m) => m.BusinessProfile) },
+    ],
+  },
+  {
+    path: 'admin',
+    canActivate: [requireRole('admin')],
+    loadComponent: () => import('./pages/admin/admin-shell').then((m) => m.AdminShell),
+    children: [
+      { path: '', loadComponent: () => import('./pages/admin/overview/overview').then((m) => m.AdminOverview) },
+      { path: 'people', loadComponent: () => import('./pages/admin/people/people').then((m) => m.AdminPeople) },
+      { path: 'profile', loadComponent: () => import('./pages/admin/profile/profile').then((m) => m.AdminProfile) },
+    ],
   },
   { path: '**', redirectTo: '' },
 ];

@@ -1,0 +1,93 @@
+@if (trip(); as o) {
+  <header class="trip-head">
+    <span class="req-icon" aria-hidden="true"><app-service-icon [key]="o.service" /></span>
+    <div>
+      <h1>{{ o.serviceTitle }}</h1>
+      <span class="muted">Order {{ o.id }} · {{ o.customerName }}</span>
+    </div>
+    <span class="phase-chip">{{ phase(o) }}</span>
+  </header>
+
+  <div class="trip-grid">
+    <section class="trip-map-card">
+      <div class="map" [attr.data-phase]="o.status" aria-hidden="true">
+        <svg class="route" viewBox="0 0 400 180" preserveAspectRatio="none">
+          <path class="route-line" d="M40 150 C 120 150, 130 50, 200 55 S 300 110, 360 30" />
+        </svg>
+        <span class="map-pin map-pin--start"></span>
+        <span class="map-pin map-pin--end"></span>
+        <span class="map-driver"></span>
+      </div>
+
+      <div class="route-info">
+        <div class="route-line-item">
+          <span class="dot dot--start"></span>
+          <div><small>{{ o.isShuttle ? 'Pickup' : 'Collect from' }}</small><p>{{ o.pickup }}</p></div>
+        </div>
+        <div class="route-line-item">
+          <span class="dot dot--end"></span>
+          <div><small>{{ o.isShuttle ? 'Destination' : 'Deliver to' }}</small><p>{{ o.dropoff }}</p></div>
+        </div>
+        @if (o.items) {
+          <div class="route-line-item route-line-item--plain">
+            <div><small>Details</small><p>{{ o.items }}</p></div>
+          </div>
+        }
+      </div>
+    </section>
+
+    <aside class="trip-side">
+      <div class="cust-card">
+        <span class="cust-avatar">{{ o.customerName.charAt(0) }}</span>
+        <div>
+          <strong>{{ o.customerName }}</strong>
+          <span class="muted">Customer</span>
+        </div>
+      </div>
+
+      <div class="pay-card">
+        <div class="pay-row">
+          <span>Trip fare</span>
+          <span>R{{ o.fee }}</span>
+        </div>
+        <div class="pay-row muted-row">
+          <span>Platform fee (15%)</span>
+          <span>−R{{ o.fee - earning(o) }}</span>
+        </div>
+        <div class="pay-row pay-total">
+          <span>You earn</span>
+          <strong>R{{ earning(o) }}</strong>
+        </div>
+      </div>
+
+      @if (nextLabel(o); as label) {
+        <button type="button" class="advance-btn" (click)="advance(o)">{{ label }}</button>
+      }
+      <button type="button" class="cancel-job-btn" (click)="cancelJob(o)">Cancel job</button>
+    </aside>
+  </div>
+} @else if (completed(); as o) {
+  <div class="done-card">
+    <span class="done-badge" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>
+    </span>
+    <h1>{{ o.isShuttle ? 'Trip completed' : 'Delivery completed' }}</h1>
+    <p class="muted">Nice work! Your earnings have been recorded.</p>
+    <div class="done-earn">+ R{{ earning(o) }}</div>
+    <div class="done-breakdown">
+      <div class="db-row"><span>Trip fare</span><span>R{{ o.fee }}</span></div>
+      <div class="db-row"><span>Platform fee (15%)</span><span>−R{{ o.fee - earning(o) }}</span></div>
+      <div class="db-row db-total"><span>You earned</span><strong>R{{ earning(o) }}</strong></div>
+    </div>
+    <button type="button" class="advance-btn" (click)="findNext()">Find next job</button>
+  </div>
+} @else {
+  <div class="empty">
+    <div class="empty-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 13l2-5a2 2 0 0 1 1.9-1.3h10.2A2 2 0 0 1 19 8l2 5v4h-2M3 17v-4M5 17h14"/><circle cx="7.5" cy="17" r="1.6"/><circle cx="16.5" cy="17" r="1.6"/></svg>
+    </div>
+    <h2>No active trip</h2>
+    <p class="muted">Accept a request to start a trip.</p>
+    <button type="button" class="advance-btn ghost" (click)="findNext()">View requests</button>
+  </div>
+}

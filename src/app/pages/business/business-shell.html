@@ -1,0 +1,38 @@
+<header class="b-header">
+  <div class="b-header-inner">
+    <a class="b-brand" routerLink="/business" (click)="closeMenu()" aria-label="Bossa Connect business">
+      <img src="bossa-connect-logo.jpeg" alt="Bossa Connect" />
+      <span class="b-tag">Business</span>
+    </a>
+
+    <nav class="b-nav" [class.b-nav--open]="menuOpen()">
+      <a routerLink="/business" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">
+        Orders
+        @if (activeCount()) { <span class="count">{{ activeCount() }}</span> }
+      </a>
+      <a routerLink="/business/history" routerLinkActive="active" (click)="closeMenu()">History</a>
+      <a routerLink="/business/profile" routerLinkActive="active" (click)="closeMenu()">Profile</a>
+      <button type="button" class="b-signout" (click)="logout()">Sign out</button>
+    </nav>
+
+    <div class="b-header-right">
+      <app-notification-bell />
+      @if (user(); as u) {
+        <span class="b-avatar" [attr.title]="u.fullName">{{ u.fullName.charAt(0) }}</span>
+      }
+      <button
+        class="b-menu-toggle"
+        type="button"
+        [attr.aria-expanded]="menuOpen()"
+        aria-label="Toggle menu"
+        (click)="toggleMenu()"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="b-main">
+  <router-outlet />
+</main>

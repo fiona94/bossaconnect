@@ -1,0 +1,77 @@
+@if (user(); as u) {
+  <div class="profile-head">
+    <span class="p-avatar">{{ u.fullName.charAt(0) }}</span>
+    <div>
+      <h1>{{ u.fullName }}</h1>
+      <span class="muted">{{ u.email }}</span>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat">
+      <strong>{{ handled().length }}</strong>
+      <span>Orders handled</span>
+    </div>
+    <div class="stat">
+      <strong>{{ completed().length }}</strong>
+      <span>Delivered</span>
+    </div>
+    <div class="stat">
+      <strong class="cap">Business</strong>
+      <span>Account type</span>
+    </div>
+  </div>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Store details</h2>
+      @if (!editing()) {
+        <button type="button" class="edit-btn" (click)="startEdit()">Edit</button>
+      }
+    </div>
+
+    @if (!editing()) {
+      <div class="detail">
+        <span class="muted">Store name</span>
+        <span>{{ u.fullName }}</span>
+      </div>
+      <div class="detail">
+        <span class="muted">Email</span>
+        <span>{{ u.email }}</span>
+      </div>
+      <div class="detail">
+        <span class="muted">Phone</span>
+        <span>{{ u.cellNumber || 'Not set' }}</span>
+      </div>
+      <div class="detail">
+        <span class="muted">Location</span>
+        <span>{{ u.area || 'Not set' }}</span>
+      </div>
+      <div class="detail">
+        <span class="muted">Delivery</span>
+        <span>Handled by Bossa Connect drivers</span>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="save()" class="edit-form">
+        <label class="efield">
+          <span>Store name</span>
+          <input type="text" formControlName="fullName" placeholder="Your store name" />
+        </label>
+        <label class="efield">
+          <span>Phone</span>
+          <input type="tel" formControlName="cellNumber" placeholder="011 000 0000" />
+        </label>
+        <label class="efield">
+          <span>Location</span>
+          <input type="text" formControlName="area" placeholder="e.g. Soweto, Zone 4" />
+        </label>
+        <div class="edit-actions">
+          <button type="button" class="ghost-btn" (click)="cancelEdit()">Cancel</button>
+          <button type="submit" class="save-btn">Save changes</button>
+        </div>
+      </form>
+    }
+  </section>
+
+  <button type="button" class="signout" (click)="logout()">Sign out</button>
+}

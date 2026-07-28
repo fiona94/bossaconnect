@@ -1,0 +1,31 @@
+@if (user(); as u) {
+  <div class="profile-head">
+    <span class="p-avatar">{{ u.fullName.charAt(0) }}</span>
+    <div>
+      <h1>{{ u.fullName }}</h1>
+      <span class="muted">{{ u.email }}</span>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2>Account</h2>
+    <div class="detail">
+      <span class="muted">Name</span>
+      <span>{{ u.fullName }}</span>
+    </div>
+    <div class="detail">
+      <span class="muted">Email</span>
+      <span>{{ u.email }}</span>
+    </div>
+    <div class="detail">
+      <span class="muted">Role</span>
+      <span>Platform administrator</span>
+    </div>
+    <div class="detail">
+      <span class="muted">Orders on platform</span>
+      <span>{{ totalOrders().length }}</span>
+    </div>
+  </section>
+
+  <button type="button" class="signout" (click)="logout()">Sign out</button>
+}

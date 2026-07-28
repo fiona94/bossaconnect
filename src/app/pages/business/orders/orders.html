@@ -1,0 +1,77 @@
+<header class="board-head">
+  <h1>Orders</h1>
+  <p class="muted">Confirm new orders and hand them to a driver when ready.</p>
+</header>
+
+<div class="board">
+  <!-- New orders -->
+  <section class="col">
+    <div class="col-head">
+      <h2>New</h2>
+      <span class="col-count">{{ incoming().length }}</span>
+    </div>
+
+    @if (incoming().length) {
+      <div class="cards">
+        @for (o of incoming(); track o.id) {
+          <article class="order-card">
+            <div class="oc-top">
+              <span class="oc-icon" aria-hidden="true"><app-service-icon [key]="o.service" /></span>
+              <div class="oc-title">
+                <strong>{{ o.serviceTitle }}</strong>
+                <span class="muted">{{ o.customerName }} · {{ o.id }}</span>
+              </div>
+            </div>
+            @if (o.items) {
+              <p class="oc-items">{{ o.items }}</p>
+            }
+            <div class="oc-route">
+              <span class="muted">Deliver to</span>
+              <span>{{ o.dropoff }}</span>
+            </div>
+            <div class="oc-actions">
+              <button type="button" class="btn-reject" (click)="reject(o)">Reject</button>
+              <button type="button" class="btn-accept" (click)="accept(o)">Accept</button>
+            </div>
+          </article>
+        }
+      </div>
+    } @else {
+      <div class="col-empty">No new orders.</div>
+    }
+  </section>
+
+  <!-- Preparing -->
+  <section class="col">
+    <div class="col-head">
+      <h2>Preparing</h2>
+      <span class="col-count">{{ preparing().length }}</span>
+    </div>
+
+    @if (preparing().length) {
+      <div class="cards">
+        @for (o of preparing(); track o.id) {
+          <article class="order-card order-card--prep">
+            <div class="oc-top">
+              <span class="oc-icon" aria-hidden="true"><app-service-icon [key]="o.service" /></span>
+              <div class="oc-title">
+                <strong>{{ o.serviceTitle }}</strong>
+                <span class="muted">{{ o.customerName }} · {{ o.id }}</span>
+              </div>
+            </div>
+            @if (o.items) {
+              <p class="oc-items">{{ o.items }}</p>
+            }
+            <div class="oc-route">
+              <span class="muted">Deliver to</span>
+              <span>{{ o.dropoff }}</span>
+            </div>
+            <button type="button" class="btn-ready" (click)="ready(o)">Ready — call a driver</button>
+          </article>
+        }
+      </div>
+    } @else {
+      <div class="col-empty">Nothing being prepared.</div>
+    }
+  </section>
+</div>

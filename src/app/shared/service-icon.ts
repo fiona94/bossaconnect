@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { ServiceKey } from '../state/customer.service';
+import { ServiceKey } from '../state/dispatch.service';
 
 @Component({
   selector: 'app-service-icon',

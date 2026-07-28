@@ -1,0 +1,52 @@
+<header class="d-header">
+  <div class="d-header-inner">
+    <a class="d-brand" routerLink="/driver" (click)="closeMenu()" aria-label="Bossa Connect driver">
+      <img src="bossa-connect-logo.jpeg" alt="Bossa Connect" />
+      <span class="d-tag">Driver</span>
+    </a>
+
+    <nav class="d-nav" [class.d-nav--open]="menuOpen()">
+      <a routerLink="/driver" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">
+        Requests
+        @if (requestCount().length) { <span class="count">{{ requestCount().length }}</span> }
+      </a>
+      <a routerLink="/driver/trip" routerLinkActive="active" (click)="closeMenu()">
+        Active trip
+        @if (activeTrip()) { <span class="dot-live" aria-hidden="true"></span> }
+      </a>
+      <a routerLink="/driver/earnings" routerLinkActive="active" (click)="closeMenu()">Earnings</a>
+      <a routerLink="/driver/profile" routerLinkActive="active" (click)="closeMenu()">Profile</a>
+      <button type="button" class="d-signout" (click)="logout()">Sign out</button>
+    </nav>
+
+    <div class="d-header-right">
+      <button
+        type="button"
+        class="online-toggle"
+        [class.on]="online()"
+        (click)="toggleOnline()"
+        [attr.aria-pressed]="online()"
+      >
+        <span class="knob"></span>
+        <span class="online-label">{{ online() ? 'Online' : 'Offline' }}</span>
+      </button>
+      <app-notification-bell />
+      @if (user(); as u) {
+        <span class="d-avatar" [attr.title]="u.fullName">{{ u.fullName.charAt(0) }}</span>
+      }
+      <button
+        class="d-menu-toggle"
+        type="button"
+        [attr.aria-expanded]="menuOpen()"
+        aria-label="Toggle menu"
+        (click)="toggleMenu()"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="d-main">
+  <router-outlet />
+</main>

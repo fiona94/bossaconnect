@@ -1,0 +1,35 @@
+<header class="a-header">
+  <div class="a-header-inner">
+    <a class="a-brand" routerLink="/admin" (click)="closeMenu()" aria-label="Bossa Connect admin">
+      <img src="bossa-connect-logo.jpeg" alt="Bossa Connect" />
+      <span class="a-tag">Admin</span>
+    </a>
+
+    <nav class="a-nav" [class.a-nav--open]="menuOpen()">
+      <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">Overview</a>
+      <a routerLink="/admin/people" routerLinkActive="active" (click)="closeMenu()">People</a>
+      <a routerLink="/admin/profile" routerLinkActive="active" (click)="closeMenu()">Profile</a>
+      <button type="button" class="a-signout" (click)="logout()">Sign out</button>
+    </nav>
+
+    <div class="a-header-right">
+      <app-notification-bell />
+      @if (user(); as u) {
+        <span class="a-avatar" [attr.title]="u.fullName">{{ u.fullName.charAt(0) }}</span>
+      }
+      <button
+        class="a-menu-toggle"
+        type="button"
+        [attr.aria-expanded]="menuOpen()"
+        aria-label="Toggle menu"
+        (click)="toggleMenu()"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="a-main">
+  <router-outlet />
+</main>

@@ -1,0 +1,29 @@
+<header class="ppl-head">
+  <h1>People</h1>
+  <p class="muted">Everyone registered on the platform.</p>
+</header>
+
+@for (g of groups(); track g.role) {
+  <section class="group">
+    <div class="group-head">
+      <h2>{{ g.title }}</h2>
+      <span class="group-count">{{ g.users.length }}</span>
+    </div>
+    @if (g.users.length) {
+      <div class="ppl-list">
+        @for (u of g.users; track u.email) {
+          <div class="ppl-row">
+            <span class="ppl-avatar" [attr.data-role]="u.role">{{ u.fullName.charAt(0) }}</span>
+            <div class="ppl-info">
+              <strong>{{ u.fullName }}</strong>
+              <span class="muted">{{ u.email }}</span>
+            </div>
+            <span class="ppl-detail muted">{{ detail(u) }}</span>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="group-empty">None yet.</div>
+    }
+  </section>
+}

@@ -1,0 +1,76 @@
+<header class="req-head">
+  <div>
+    <h1>Nearby requests</h1>
+    <p class="muted">Accept a job to start earning.</p>
+  </div>
+  <span class="status-chip" [class.on]="online()">
+    <span class="chip-dot"></span>{{ online() ? 'Online' : 'Offline' }}
+  </span>
+</header>
+
+@if (activeTrip()) {
+  <a class="active-strip" routerLink="/driver/trip">
+    <span class="pulse" aria-hidden="true"></span>
+    You have an active trip in progress — tap to continue.
+  </a>
+}
+
+@if (!online()) {
+  <div class="empty">
+    <h2>You're offline</h2>
+    <p class="muted">Go online to start receiving delivery and shuttle requests.</p>
+    <button type="button" class="go-online" (click)="goOnline()">Go online</button>
+  </div>
+} @else if (requests().length) {
+  <div class="req-list">
+    @for (o of requests(); track o.id) {
+      <article class="req-card">
+        <div class="req-top">
+          <span class="req-icon" aria-hidden="true"><app-service-icon [key]="o.service" /></span>
+          <div class="req-title">
+            <strong>{{ o.serviceTitle }}</strong>
+            <span class="muted">{{ o.customerName }} · {{ o.distanceKm }} km</span>
+          </div>
+          <div class="req-earn">
+            <span class="earn-amt">R{{ earning(o) }}</span>
+            <span class="earn-label">you earn</span>
+          </div>
+        </div>
+
+        <div class="req-route">
+          <div class="route-line">
+            <span class="dot dot--start"></span>
+            <div><small>{{ o.isShuttle ? 'Pickup' : 'Collect from' }}</small><p>{{ o.pickup }}</p></div>
+          </div>
+          <div class="route-line">
+            <span class="dot dot--end"></span>
+            <div><small>{{ o.isShuttle ? 'Destination' : 'Deliver to' }}</small><p>{{ o.dropoff }}</p></div>
+          </div>
+          @if (o.items) {
+            <div class="route-line route-line--plain">
+              <div><small>Details</small><p>{{ o.items }}</p></div>
+            </div>
+          }
+        </div>
+
+        <div class="req-meta">
+          <span>Fare R{{ o.fee }}</span>
+          <span>~{{ o.etaMinutes }} min</span>
+        </div>
+
+        <div class="req-actions">
+          <button type="button" class="btn-decline" (click)="decline(o)">Decline</button>
+          <button type="button" class="btn-accept" (click)="accept(o)">Accept job</button>
+        </div>
+      </article>
+    }
+  </div>
+} @else {
+  <div class="empty">
+    <div class="empty-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    </div>
+    <h2>No requests right now</h2>
+    <p class="muted">New jobs from nearby customers will appear here automatically.</p>
+  </div>
+}

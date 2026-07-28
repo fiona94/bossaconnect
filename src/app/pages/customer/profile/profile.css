@@ -68,7 +68,86 @@
 }
 .card h2 {
   font-size: 1.25rem;
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 16px;
+}
+.edit-btn {
+  background: var(--surface-alt);
+  border: 1px solid var(--line);
+  color: var(--green-700);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 7px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.edit-btn:hover {
+  background: var(--cream);
+}
+.edit-form {
+  display: grid;
+  gap: 14px;
+}
+.efield {
+  display: grid;
+  gap: 6px;
+}
+.efield span {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--navy-800);
+}
+.efield input {
+  height: 46px;
+  box-sizing: border-box;
+  border: 1.5px solid var(--line);
+  background: var(--surface-alt);
+  border-radius: 10px;
+  padding: 0 14px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.efield input:focus {
+  border-color: var(--emerald-500);
+  background: #fff;
+}
+.edit-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+.ghost-btn,
+.save-btn {
+  flex: 1;
+  height: 46px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+.ghost-btn {
+  background: #fff;
+  border: 1.5px solid var(--line);
+  color: var(--slate-600);
+}
+.ghost-btn:hover {
+  background: var(--surface-alt);
+}
+.save-btn {
+  border: none;
+  background: var(--emerald-gradient);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(29, 185, 84, 0.3);
 }
 .detail {
   display: flex;

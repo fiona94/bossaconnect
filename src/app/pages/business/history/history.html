@@ -1,0 +1,44 @@
+<header class="hist-head">
+  <h1>History</h1>
+  <p class="muted">Every order your store has fulfilled through Bossa Connect.</p>
+</header>
+
+<div class="stat-row">
+  <div class="stat">
+    <strong>{{ fulfilled().length }}</strong>
+    <span>Orders handled</span>
+  </div>
+  <div class="stat">
+    <strong>{{ delivered() }}</strong>
+    <span>Delivered</span>
+  </div>
+  <div class="stat">
+    <strong>0</strong>
+    <span>Drivers hired</span>
+  </div>
+</div>
+
+@if (fulfilled().length) {
+  <div class="hist-list">
+    @for (o of fulfilled(); track o.id) {
+      <div class="hist-row">
+        <span class="hist-icon" aria-hidden="true"><app-service-icon [key]="o.service" /></span>
+        <div class="hist-info">
+          <strong>{{ o.serviceTitle }}</strong>
+          <span class="muted">{{ o.customerName }} → {{ o.dropoff }}</span>
+        </div>
+        <div class="hist-meta">
+          <span class="badge" [class.live]="isActive(o)">{{ statusLabel(o) }}</span>
+          @if (o.driver) {
+            <span class="muted small">via {{ o.driver.name }}</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="empty">
+    <h2>No orders yet</h2>
+    <p class="muted">Accepted orders will appear here.</p>
+  </div>
+}

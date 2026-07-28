@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { CustomerService, ServiceKey } from '../../../state/customer.service';
+import { DispatchService, ServiceKey } from '../../../state/dispatch.service';
 import { ServiceIcon } from '../../../shared/service-icon';
 
 @Component({
@@ -12,7 +12,7 @@ import { ServiceIcon } from '../../../shared/service-icon';
 })
 export class RequestFlow {
   private fb = inject(FormBuilder);
-  private customer = inject(CustomerService);
+  private dispatch = inject(DispatchService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -22,7 +22,7 @@ export class RequestFlow {
   private readonly serviceKey = signal<ServiceKey>(
     (this.route.snapshot.paramMap.get('service') as ServiceKey) ?? 'food',
   );
-  protected readonly def = computed(() => this.customer.service(this.serviceKey())!);
+  protected readonly def = computed(() => this.dispatch.service(this.serviceKey())!);
 
   protected readonly form = this.fb.nonNullable.group({
     pickup: ['', [Validators.required]],
@@ -37,8 +37,8 @@ export class RequestFlow {
     const def = this.def();
     const { pickup, dropoff } = this.formValue();
     if (!pickup.trim() || !dropoff.trim()) return null;
-    const distanceKm = this.customer.estimateDistance(pickup, dropoff);
-    const { fee, etaMinutes } = this.customer.quote(def, distanceKm);
+    const distanceKm = this.dispatch.estimateDistance(pickup, dropoff);
+    const { fee, etaMinutes } = this.dispatch.quote(def, distanceKm);
     return { distanceKm, fee, etaMinutes };
   });
 
@@ -64,7 +64,7 @@ export class RequestFlow {
     this.placing.set(true);
     await new Promise((r) => setTimeout(r, 400));
     const { pickup, dropoff, items } = this.form.getRawValue();
-    const order = this.customer.createOrder({
+    const order = this.dispatch.createOrder({
       service: this.serviceKey(),
       pickup,
       dropoff,

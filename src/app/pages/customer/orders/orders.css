@@ -98,7 +98,8 @@
   background: rgba(29, 185, 84, 0.14);
   color: var(--green-700);
 }
-.badge[data-status='cancelled'] {
+.badge[data-status='cancelled'],
+.badge[data-status='declined'] {
   background: #fdecec;
   color: #b4231f;
 }

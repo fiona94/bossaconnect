@@ -14,14 +14,19 @@ describe('AuthService', () => {
     expect(auth.role()).toBeNull();
   });
 
-  it('exposes four demo accounts', () => {
-    expect(auth.demoAccounts.length).toBe(4);
+  it('shows one driver in the demo panel and hides the second', () => {
     expect(auth.demoAccounts.map((a) => a.role)).toEqual([
       'customer',
       'driver',
       'business',
       'admin',
     ]);
+    expect(auth.demoAccounts.some((a) => a.email === 'driver2@bossaconnect.app')).toBe(false);
+  });
+
+  it('still allows the hidden second driver to sign in', () => {
+    expect(auth.login('driver2@bossaconnect.app', 'Driver@123')).toBeNull();
+    expect(auth.role()).toBe('driver');
   });
 
   it('logs in each demo account with the correct role', () => {

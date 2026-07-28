@@ -1,0 +1,68 @@
+<header class="ov-head">
+  <h1>Platform overview</h1>
+  <p class="muted">Live activity across customers, drivers and businesses.</p>
+</header>
+
+<div class="kpis">
+  <div class="kpi">
+    <span class="kpi-label">Total orders</span>
+    <strong class="kpi-value">{{ orders().length }}</strong>
+  </div>
+  <div class="kpi">
+    <span class="kpi-label">Active now</span>
+    <strong class="kpi-value accent">{{ active().length }}</strong>
+  </div>
+  <div class="kpi">
+    <span class="kpi-label">Completed</span>
+    <strong class="kpi-value">{{ completed().length }}</strong>
+  </div>
+  <div class="kpi kpi--dark">
+    <span class="kpi-label">Platform commission</span>
+    <strong class="kpi-value">R{{ commission() }}</strong>
+    <span class="kpi-sub">of R{{ gmv() }} delivered</span>
+  </div>
+</div>
+
+<div class="ov-grid">
+  <!-- Live orders -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Live orders</h2>
+      <span class="panel-count">{{ liveOrders().length }}</span>
+    </div>
+    @if (liveOrders().length) {
+      <div class="table-wrap">
+        <table class="orders-table">
+          <thead>
+            <tr><th>Order</th><th>Service</th><th>Customer</th><th>Handler</th><th>Status</th><th class="ta-right">Fee</th></tr>
+          </thead>
+          <tbody>
+            @for (o of liveOrders(); track o.id) {
+              <tr>
+                <td class="mono">{{ o.id }}</td>
+                <td>{{ o.serviceTitle }}</td>
+                <td>{{ o.customerName }}</td>
+                <td>{{ handler(o) }}</td>
+                <td><span class="pill" [attr.data-status]="o.status">{{ statusLabel(o.status) }}</span></td>
+                <td class="ta-right">R{{ o.fee }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    } @else {
+      <div class="panel-empty">No live orders right now.</div>
+    }
+  </section>
+
+  <!-- Registered users -->
+  <section class="panel">
+    <div class="panel-head"><h2>Registered</h2></div>
+    <ul class="reg-list">
+      <li><span>Customers</span><strong>{{ roleCounts().customer }}</strong></li>
+      <li><span>Drivers</span><strong>{{ roleCounts().driver }}</strong></li>
+      <li><span>Businesses</span><strong>{{ roleCounts().business }}</strong></li>
+      <li><span>Admins</span><strong>{{ roleCounts().admin }}</strong></li>
+    </ul>
+  </section>
+</div>

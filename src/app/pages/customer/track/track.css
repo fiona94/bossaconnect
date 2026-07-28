@@ -396,6 +396,127 @@
   color: var(--navy-800);
 }
 
+.cancel-btn {
+  width: 100%;
+  background: #fff;
+  border: 1.5px solid #f0c9c7;
+  color: #b4231f;
+  border-radius: 999px;
+  padding: 13px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.94rem;
+  cursor: pointer;
+  transition: background 0.16s ease;
+}
+.cancel-btn:hover {
+  background: #fdecec;
+}
+.cancelled-note {
+  background: #fdecec;
+  color: #b4231f;
+  border: 1px solid #f6c9c7;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: center;
+}
+.declined-card {
+  background: #fff;
+  border: 1px solid #f6c9c7;
+  border-radius: var(--radius);
+  padding: 24px 22px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.declined-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fdecec;
+  color: #d9534f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.declined-icon svg {
+  width: 26px;
+  height: 26px;
+}
+.declined-card strong {
+  display: block;
+  color: var(--navy-800);
+  font-size: 1.1rem;
+}
+.declined-card .muted {
+  font-size: 0.88rem;
+  margin: 6px 0 16px;
+}
+.reopen-btn {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 999px;
+  background: var(--emerald-gradient);
+  color: #fff;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.96rem;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(29, 185, 84, 0.3);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+.reopen-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(29, 185, 84, 0.4);
+}
+
+.receipt-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.receipt-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  margin-bottom: 6px;
+  border-bottom: 1px dashed var(--line);
+}
+.receipt-head strong {
+  color: var(--navy-800);
+  font-size: 1.05rem;
+}
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  font-size: 0.9rem;
+}
+.receipt-row span:last-child {
+  color: var(--navy-800);
+  font-weight: 500;
+}
+.receipt-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+  color: var(--slate-600);
+}
+.receipt-total strong {
+  font-size: 1.3rem;
+  color: var(--green-700);
+}
+
 .not-found {
   text-align: center;
   padding: 60px 20px;
